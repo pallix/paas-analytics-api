@@ -1,0 +1,100 @@
+* Definitions
+
+- Metadata: a set of key/value attributes attached to a resource
+- Resource: an entity in the system such as a proposal or a comment
+- Role: a set of permissions with a name that can be mapped to an user
+- Sheet: an interface with a set of name/value attributes attached to
+  a resource.
+- REST API: representational state transfer (REST) API [1].
+Additional definitions can be found in the glossary of Adhocracy3:
+http://adhocracy3.readthedocs.org/en/latest/glossary.html
+
+* Introduction
+
+The Adhocracy 3 backend provides an HTTP REST API, which can be used
+by various clients, such as a web frontend running in a browser, to
+implement the user interface of various participation processes. It
+can also be used by third-party software to access or create
+resources. This document explains how the analytics engine of the PAAS
+project can use the REST API of Adhocracy to analyse relevant facts
+about the resources created of the platform, for example to analyse
+the general mood of the commentars in a particular participat process.
+It also explains the necessary extensions to the REST API in order to
+allow the Adhocracy software to display a dashboard with the result of
+the analysis.
+
+
+* Introduction to the REST API.
+
+** Resources
+
+The REST API provided by the backend of Adhocracy 3 allows the
+creation, query, search, filtering, update, modification and deletion
+of resources. Resources are entities such as organisations, proposals,
+comments etc. and are used to model the domain, which is often a
+particular participation process. They build a hierarchy and are often
+mapped to an URL. For example,
+
+/digital_leben/2._DigitaleWirtschaft/PARAGRAPH_0000015/comments/comment_0000000/
+
+is an URL giving access to a specific comment inside the 'digital
+leben' participation process. Resources can be versioned. When
+updating the content of a versioned resource, all states of the
+resource are kept and available ; the last change is the last version.
+
+** Meta API
+
+The definition of the API can be pragmatically query and is
+available on /meta_api. The meta api describes which resources can be
+created, what the structure of the resources are etc. It can be used
+by tools or clients to facilitate their use of the API, automatize
+tasks, create method stubs or function annotation types that match the
+API.
+
+** Sheets
+
+ Values attached to a resource are accessed through interfaces called
+ sheets. For example the IMetadata sheet contained the following keys:
+ creation_date, item_creation_date, hidden, deleted, modified_by,
+ creator, modification_date. As an example, an instance of the
+ IMetadata sheet for a given resource could have the following values:
+
+    "creation_date": "2015-07-08T23:02:07.192829+00:00",
+    "item_creation_date": "2015-07-08T23:02:07.192829+00:00",
+    "hidden": "false",
+    "deleted": "false",
+    "modified_by": "https://spd.liqd.net/api/principals/users/0001234/",
+    "creator": "https://spd.liqd.net/api/principals/users/0001234/",
+    "modification_date": "2015-07-08T23:02:07.192829+00:00"
+
+** Permissions
+
+The permissions to access or modify resources can be query with an
+HTTP OPTION request. This allows a client of the API to adapt its user
+interface or behavior according to the credentials of the current
+user.
+
+** Detailed documentation
+
+A fully detailed documentation of all the REST API functionalities is
+available online [2]
+
+[1] https://en.wikipedia.org/wiki/Representational_state_transfer
+
+[2] http://adhocracy3.readthedocs.org/en/latest/
+
+* Description of the extensions for the PAAS project
+
+** Extension for the sentiment analysis
+
+As the sentiment analysis uses a supervised learning algorithm, a
+pre-classification of a subset of the input should be done by a human.
+Concretely the Adhocracy user interface will need to allow a moderator
+to describe the mood of a few comments in a debate in order to allow
+the analytics to classify all the comments. This information provided
+by the moderator can be encoded by extending the adhocracy backend
+with a new sheet attached to comment: IMood. It contains one field
+"mood" of type string.
+
+
+
