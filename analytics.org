@@ -79,13 +79,26 @@ user.
 A fully detailed documentation of all the REST API functionalities is
 available online [2]
 
-[1] https://en.wikipedia.org/wiki/Representational_state_transfer
-
-[2] http://adhocracy3.readthedocs.org/en/latest/
-
 * Description of the extensions for the PAAS project
 
-** Extension for the sentiment analysis
+** Extensions for the topic model
+
+IMultiTopicModelAnalysis:
+- minimumThemeCount: Integer
+- analysesCount: Integer
+- analyses: Sequence of (ref ITopicModelAnalysis])
+
+ITopicModelAnalysis:
+- picture: ref ImageReference
+optional field (if dashboard wants to draw its own words cloud):
+ - wordsWeights: Sequence of (Tuple [String, Integer])
+
+** Extensions for the network analysis
+
+INetworkAnalysis:
+- picture: ImageReference
+
+** Extensions for the sentiment analysis
 
 As the sentiment analysis uses a supervised learning algorithm, a
 pre-classification of a subset of the input should be done by a human.
@@ -93,8 +106,19 @@ Concretely the Adhocracy user interface will need to allow a moderator
 to describe the mood of a few comments in a debate in order to allow
 the analytics to classify all the comments. This information provided
 by the moderator can be encoded by extending the adhocracy backend
-with a new sheet attached to comment: IMood. It contains one field
-"mood" of type string.
+with a new sheet attached to comment: ISentiment. It contains one field
+"sentiment" of type string (???).
+
+ISentimentAnalysis:
+- commentsCount: Integer
+- classifiedCommentsCount: Integer
+- picture: ImageReference
+optional field:
+- result: ??? (Double?)
 
 
+* References
 
+[1] https://en.wikipedia.org/wiki/Representational_state_transfer
+
+[2] http://adhocracy3.readthedocs.org/en/latest/
