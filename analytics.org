@@ -99,6 +99,9 @@ INetworkAnalysis:
 - picture: ImageReference
 
 TODO: If Liqd wants to represent the graph, it should be modelled.
+Example:
+- https://github.com/TimeBandit/graphSub/blob/master/data/miserables.json
+- alternative: the network modeled with the graph database of Adhocracy
 
 ** Extensions for the sentiment analysis
 
