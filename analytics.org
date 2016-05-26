@@ -98,6 +98,8 @@ optional field (if dashboard wants to draw its own words cloud):
 INetworkAnalysis:
 - picture: ImageReference
 
+TODO: If Liqd wants to represent the graph, it should be modelled.
+
 ** Extensions for the sentiment analysis
 
 As the sentiment analysis uses a supervised learning algorithm, a
@@ -112,8 +114,6 @@ with a new sheet attached to comment: ISentiment. It contains one field
 ISentimentAnalysis:
 - commentsCount: Integer
 - classifiedCommentsCount: Integer
-- picture: ImageReference
-optional field:
 - result: ??? (Double?)
 
 
